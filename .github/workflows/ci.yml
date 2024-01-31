@@ -15,7 +15,8 @@ jobs:
         uses: actions/Checkout@v4 #version in small letter
       - name: Build
         run: |
-          docker build -t ${{ github.repository }}:latest --file Docker/Dockerfile .
+          cd Docker
+          docker build -t ${{ github.repository }}:latest .
       
       
   
