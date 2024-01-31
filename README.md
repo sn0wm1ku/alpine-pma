@@ -1,4 +1,9 @@
 # alpine-pma
+phpMyAdmin with AWS tools inside.
+Design for connecting isolated RDS DB.
+**Pre-requesties**
+- RDS with Bastion in isolated Subnet
+- RDS Password by SecretsManager
 
 ## Setup
 ### Environment Variable
