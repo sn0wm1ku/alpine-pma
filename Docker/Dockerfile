@@ -6,9 +6,9 @@ COPY --from=sessionmanagerplugin /usr/local/sessionmanagerplugin/bin/session-man
 
 # COPY cert.key /etc/nginx/ssl/
 # COPY cert.crt /etc/nginx/ssl/
-COPY ./Docker/aws-host-tunnel /workspace/
-COPY ./Docker/nginx.conf /etc/nginx/http.d/
-COPY ./Docker/entrypoint.sh /usr/local/bin/
+COPY ./aws-host-tunnel /workspace/
+COPY ./nginx.conf /etc/nginx/http.d/
+COPY ./entrypoint.sh /usr/local/bin/
 RUN apk update && apk upgrade && \
     apk add aws-cli --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community/ && \
     apk add gcompat git nginx jq
