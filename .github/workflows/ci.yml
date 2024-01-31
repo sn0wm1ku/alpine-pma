@@ -15,7 +15,7 @@ jobs:
         uses: actions/Checkout@v4 #version in small letter
       - name: Build
         run: |
-          docker build .
+          docker build --file Docker/Dockerfile .
       
       
   
