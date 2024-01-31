@@ -1,0 +1,23 @@
+name: deploy
+on:
+  push:
+    branches:
+      - release
+jobs:
+  build:
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          docker build -t ${{ github.repository }}:latest --file Docker/Dockerfile .
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Get Metadata
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ github.repository }}
