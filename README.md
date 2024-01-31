@@ -2,11 +2,25 @@
 <img width="3104" alt="Untitled" src="https://github.com/sn0wm1ku/alpine-pma/assets/132436492/678b2611-df33-48a4-897d-cbaf99d61dc5">
 phpMyAdmin with AWS tools inside.
 Design for connecting isolated RDS DB.
+
 **Pre-requesties**
-- RDS with Bastion in isolated Subnet
-- RDS Password by SecretsManager
+- `RDS` with `Bastion` (EC2) in isolated Subnet
+- `SSM` permission for Bastion
+- `.aws/config` and `.aws/credential` [setup](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
+
 
 ## Setup
+
+### Docker Commands
+_*Pulling image*_
+```
+docker image pull sn0wm1ku/alpine-pma:latest
+```
+_*Running container*_
+```
+docker run --name alpine-pma --env-file .env -v ~/.aws:/root/.aws -p80:80 -d sn0wm1ku/alpine-pma
+```
+
 ### Environment Variable
 - `AWS_PROFILE`
     The Name of Profile to be use with Tunneling
