@@ -1,0 +1,17 @@
+#!/bin/sh -eu
+
+########################################################################
+# SECRET_NAME=$(aws secretsmanager list-secrets --query "SecretList[*].Name" --profile $AWS_PROFILE | tr -d '[]"')
+# DBPASS_RAW=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --query SecretString --profile $AWS_PROFILE | sed 's/\\//g' | sed 's/^"//' | sed 's/"$//')
+# DBPASS=$(echo $DBPASS_RAW | awk -F: '{print $2}' | awk -F, '{print $1}')
+# echo DB Password = $DBPASS
+if [ $RDS_TYPE = 'Instance' ]; then
+    AWS_CMD=describe-db-instances
+else
+    AWS_CMD=describe-db-clusters
+fi
+
+AWS_MYSQL_ENDPOINT=$(aws rds $AWS_CMD --query "DB${RDS_TYPE}s[*].Endpoint" --output json --profile $AWS_PROFILE)
+BASTION_INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=bastion" --query "Reservations[*].Instances[*].InstanceId" --output text --profile $AWS_PROFILE)
+SSM_PARAM=$(echo $AWS_MYSQL_ENDPOINT | jq '{"portNumber": [(.[] | .Port | tostring)], "localPortNumber": [(.[] | .Port | tostring)], "host": [(.[] | .Address)]}')
+aws ssm start-session --target $BASTION_INSTANCE_ID --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters "$SSM_PARAM" --profile $AWS_PROFILE
