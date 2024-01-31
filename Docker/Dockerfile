@@ -46,8 +46,7 @@ RUN apk update && apk upgrade && \
 #     nginx &\n\
 #     cd /workspace && ops/docker/development/sh/aws-host-tunnel >> /proc/1/fd/2 &\n\
 #     wait" > /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
-RUN cat /etc/nginx/http.d/nginx.conf && \
-    mv /etc/nginx/http.d/default.conf /etc/nginx/http.d/default.conf-disabled && \
+RUN mv /etc/nginx/http.d/default.conf /etc/nginx/http.d/default.conf-disabled && \
     nginx -t && nginx && \
     chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT [ "/bin/sh", "/usr/local/bin/entrypoint.sh" ]
