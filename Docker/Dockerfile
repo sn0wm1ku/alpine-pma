@@ -11,7 +11,7 @@ COPY ./Docker/nginx.conf /etc/nginx/http.d/
 COPY ./Docker/entrypoint.sh /usr/local/bin/
 RUN apk update && apk upgrade && \
     apk add aws-cli --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community/ && \
-    apk add gcompat git nginx
+    apk add gcompat git nginx jq
 # RUN echo  -e "server { \n\
 #     listen 80 default_server; \n\
 #     server_name _; \n\
