@@ -1,0 +1,67 @@
+name: Fix（不具合修正）
+title: 〇〇となる問題を調査・解消
+description: 問題調査およびその修正対応向け様式
+labels: ["fix"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        TitleはこのIssueの目的を端的かつ正確に表す形で記入して下さい（ex. 「○○のの時に○○を○○する機能を実装」「○○の時に○○となる問題を解消」）
+
+        -----------------------------------------------
+
+        ## 不具合報告
+  - type: textarea
+    id: situation
+    attributes:
+      label: 1.状況
+      description: 問題の客観的な状況や再現手順を記入して下さい。
+      placeholder: ex. 顧客情報を更新しても反映されないことがある。
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 2.原因
+      description: 原因がわかっている場合はその原因を、わかっていない場合はそのままにして後で記入して下さい。
+      value: ※記述予定
+  - type: textarea
+    id: affected_range
+    attributes:
+      label: 3.影響範囲（発生期間・対象など）
+      description: （省略可）問題が発生していた期間や対象者などについてを記入して下さい。
+      placeholder: ex. 顧客詳細画面リリースから本Issueの対応完了時まで管理者ユーザーに影響があった。
+  - type: textarea
+    id: caused_from
+    attributes:
+      label: 4.不具合の混入経緯
+      description: （修正後）不具合が混入するきっかけとなったIssueのURLを入力して下さい。
+      value: |
+        1. (IssueのURL)
+
+  - type: markdown
+    attributes:
+      value: |
+        -----------------------------------------------
+
+        ## 起票後について
+
+        ### Projectsの属性を設定
+
+        起票後、IssueがProjectsに自動登録されるので、数値入力が必要な項目は以下を目安に入力して下さい。
+
+        * 工数(人日)
+          * 本プロジェクトに参画する平均的な開発者が対応にかかる時間を概算で記入して下さい。1人日=8時間とし最小値は0.25人日（2時間）、最大値10人日（2週間）としてそれより大きい場合はissueを分割して下さい。
+        * 難易度
+          - 4 = 高い - すでにやるべきことが自明なレベル
+          - 3 = やや高い - 問題調査や仕様把握などを通して明らかにできるレベル
+          - 2 = やや低い - 主体的な問題の理解と課題の洗い出しから必要となるレベル
+          - 1 = 低い - まだどこから手をつけるべきか検討がつかないレベル
+
+        ### 担当者の設定
+
+        IssueにAssigneeを設定すると自動的にPull Requestが作成されます。通常このPull Requestのブランチにcheckoutして開発を進めます。
+
+        ### 設計・検査仕様の記入
+
+        設計や検査仕様は（Issueでなく）Pull Requestに記入して下さい。

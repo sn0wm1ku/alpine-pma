@@ -1,0 +1,56 @@
+name: Behavior Change
+title: Chaning from 〇〇 Behavior to 〇〇 Behavior
+description: Template for Changing Behavior of existing feature
+labels: ["change"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please give this issue an appropiate Title
+
+        -----------------------------------------------
+
+  - type: textarea
+    id: requirement
+    attributes:
+      label: Requirement Specification
+      description: Describe the Background and Approach for this feature.
+      placeholder: The docker should make man-kind able to fly.
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: Remarks
+      description: Additional Information (e.g. Link of related issue) 
+      value: |
+        ### Related Issue
+
+        1. (IssueのURL)
+
+  - type: markdown
+    attributes:
+      value: |
+        -----------------------------------------------
+
+        ## 起票後について
+
+        ### Projectsの属性を設定
+
+        起票後、IssueがProjectsに自動登録されるので、数値入力が必要な項目は以下を目安に入力して下さい。
+
+        * 工数(人日)
+          * 本プロジェクトに参画する平均的な開発者が対応にかかる時間を概算で記入して下さい。1人日=8時間とし最小値は0.25人日（2時間）、最大値10人日（2週間）としてそれより大きい場合はissueを分割して下さい。
+        * 難易度
+          - 4 = 高い - すでにやるべきことが自明なレベル
+          - 3 = やや高い - 問題調査や仕様把握などを通して明らかにできるレベル
+          - 2 = やや低い - 主体的な問題の理解と課題の洗い出しから必要となるレベル
+          - 1 = 低い - まだどこから手をつけるべきか検討がつかないレベル
+
+        ### 担当者の設定
+
+        IssueにAssigneeを設定すると自動的にPull Requestが作成されます。通常このPull Requestのブランチにcheckoutして開発を進めます。
+
+        ### 設計・検査仕様の記入
+
+        設計や検査仕様は（Issueでなく）Pull Requestに記入して下さい。
