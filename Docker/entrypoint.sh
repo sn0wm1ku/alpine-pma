@@ -17,4 +17,8 @@ else
   export PMA_PORTS=$PMA_PORT,$RDS_PORT
 fi
 /docker-entrypoint.sh php-fpm &
+echo -e "127.0.0.1\t$RDS_HOST" >>/etc/hosts
+if [ ! -f "/etc/ssl/$AWS_REGION-bundle.pem" ]; then
+  curl "https://truststore.pki.rds.amazonaws.com/$AWS_REGION/$AWS_REGION-bundle.pem" -o "/etc/ssl/$AWS_REGION-bundle.pem"
+fi
 wait
