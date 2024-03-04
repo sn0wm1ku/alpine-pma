@@ -1,11 +1,13 @@
 FROM ubuntu:20.04 as sessionmanagerplugin
 #ADD https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb .
-RUN apt update && apt install -y curl unzip
-RUN if [ "$BUILDPLATFORM" = "linux/arm64" ]; then \
-    curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_arm64/session-manager-plugin.deb" -o "session-manager-plugin.deb"; \
+ARG TARGETPLATFORM
+RUN apt-get update && apt-get -qq install -y curl unzip && \
+    if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+    export sessionmanagerplugin="https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_arm64/session-manager-plugin.deb"; \
     else \
-    curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"; \
-    fi
+    export sessionmanagerplugin="https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb"; \
+    fi && \
+    curl -s -o "session-manager-plugin.deb" $sessionmanagerplugin
 RUN dpkg -i "session-manager-plugin.deb"
 FROM phpmyadmin:fpm-alpine
 COPY --from=sessionmanagerplugin /usr/local/sessionmanagerplugin/bin/session-manager-plugin /usr/local/bin/
