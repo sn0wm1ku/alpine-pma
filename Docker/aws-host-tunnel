@@ -11,7 +11,7 @@ else
     AWS_CMD=describe-db-clusters
 fi
 
-AWS_MYSQL_ENDPOINT=$(aws rds $AWS_CMD --query "DB${RDS_TYPE}s[*].Endpoint" --output json --profile $AWS_PROFILE)
+export AWS_RDS_ENDPOINT=$(aws rds $AWS_CMD --query "DB${RDS_TYPE}s[?DBInstanceStatus=='available'].Endpoint" --output json --profile $AWS_PROFILE)
 BASTION_INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=bastion" --query "Reservations[*].Instances[*].InstanceId" --output text --profile $AWS_PROFILE)
-SSM_PARAM=$(echo $AWS_MYSQL_ENDPOINT | jq '{"portNumber": [(.[] | .Port | tostring)], "localPortNumber": [(.[] | .Port | tostring)], "host": [(.[] | .Address)]}')
+SSM_PARAM=$(echo $AWS_RDS_ENDPOINT | jq '{"portNumber": [(.[] | .Port | tostring)], "localPortNumber": [(.[] | .Port | tostring)], "host": [(.[] | .Address)]}')
 aws ssm start-session --target $BASTION_INSTANCE_ID --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters "$SSM_PARAM" --profile $AWS_PROFILE
